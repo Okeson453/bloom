@@ -49,7 +49,4 @@ function mergeHoldings(existing, newHoldings) {
     return merged
 }
 
-module.exports = {
-    allocate,
-    mergeHoldings,
-}
+export { allocate, mergeHoldings }

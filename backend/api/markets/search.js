@@ -3,7 +3,8 @@
  * Search for market data by symbol
  */
 
-import { sendOk, sendBadRequest } from '../../_lib/response.js'
+import supabaseUser from '../../_lib/supabaseUser.js'
+import { sendOk, sendBadRequest, sendUnauthorized } from '../../_lib/response.js'
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -11,6 +12,13 @@ export default async function handler(req, res) {
   }
 
   try {
+    const supabase = supabaseUser(req)
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      return sendUnauthorized(res, 'User not authenticated')
+    }
+
     const { q } = req.query
 
     if (!q || typeof q !== 'string' || q.length < 1) {

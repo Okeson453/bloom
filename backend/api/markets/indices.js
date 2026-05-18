@@ -3,8 +3,8 @@
  * Get market indices data
  */
 
-import { getSupabaseAdmin } from '../../_lib/supabase.js'
-import { sendOk } from '../../_lib/response.js'
+import supabaseUser from '../../_lib/supabaseUser.js'
+import { sendOk, sendUnauthorized } from '../../_lib/response.js'
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -12,6 +12,13 @@ export default async function handler(req, res) {
   }
 
   try {
+    const supabase = supabaseUser(req)
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      return sendUnauthorized(res, 'User not authenticated')
+    }
+
     // Mock indices data - in production, fetch from market data API
     const indices = [
       {
