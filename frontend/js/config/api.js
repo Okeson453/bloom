@@ -10,17 +10,17 @@ const getApiBaseUrl = () => {
 
         // Local development
         if (hostname === 'localhost' || hostname === '127.0.0.1') {
-            return 'http://localhost:3000/v1';
+            return 'http://localhost:3000/api';
         }
 
         // Production or deployed environments
         if (hostname.includes('bloomfinance') || hostname.includes('bloom-')) {
-            return `https://${hostname}/api/v1`;
+            return `https://${hostname}/api`;
         }
     }
 
     // Default fallback (browser-safe)
-    return 'http://localhost:3000/v1';
+    return 'http://localhost:3000/api';
 };
 
 export const API_CONFIG = {
