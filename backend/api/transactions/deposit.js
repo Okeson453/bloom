@@ -3,16 +3,16 @@
  * Create a deposit transaction
  */
 
-const { supabaseUser } = require('../../_lib/supabaseUser')
-const { validate, createTransactionSchema } = require('../../_lib/validate')
-const {
+import supabaseUser from '../../_lib/supabaseUser.js'
+import { validate, createTransactionSchema } from '../../_lib/validate.js'
+import {
   sendCreated,
   sendUnauthorized,
   sendBadRequest,
   handleSupabaseError,
-} = require('../../_lib/response')
+} from '../../_lib/response.js'
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
@@ -38,18 +38,54 @@ module.exports = async (req, res) => {
     }
 
     // Create deposit transaction
-    const { data: transaction, error } = await supabase
+    const { data: transaction, error: txError } = await supabase
       .from('transactions')
       .insert({
         user_id: user.id,
         type: 'deposit',
-        ...validatedData,
+        amount: validatedData.amount,
+        portfolio_id: validatedData.portfolio_id || null,
+        description: validatedData.description || null,
+        status: 'completed',
       })
       .select()
       .single()
 
-    if (error) {
-      return handleSupabaseError(res, error)
+    if (txError) {
+      return handleSupabaseError(res, txError)
+    }
+
+    // Update user's available balance
+    const { data: userWallet, error: walletError } = await supabase
+      .from('user_wallets')
+      .select('available_balance')
+      .eq('user_id', user.id)
+      .single()
+
+    if (!walletError && userWallet) {
+      const newBalance = (userWallet.available_balance || 0) + validatedData.amount
+      await supabase
+        .from('user_wallets')
+        .update({ available_balance: newBalance })
+        .eq('user_id', user.id)
+    }
+
+    // Update portfolio total_invested if portfolio_id is provided
+    if (validatedData.portfolio_id) {
+      const { data: portfolio, error: portfolioError } = await supabase
+        .from('portfolios')
+        .select('total_invested')
+        .eq('id', validatedData.portfolio_id)
+        .eq('user_id', user.id)
+        .single()
+
+      if (!portfolioError && portfolio) {
+        const newTotal = (portfolio.total_invested || 0) + validatedData.amount
+        await supabase
+          .from('portfolios')
+          .update({ total_invested: newTotal })
+          .eq('id', validatedData.portfolio_id)
+      }
     }
 
     return sendCreated(res, { transaction })

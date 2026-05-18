@@ -38,18 +38,57 @@ module.exports = async (req, res) => {
     }
 
     // Create withdrawal transaction
-    const { data: transaction, error } = await supabase
+    const { data: transaction, error: txError } = await supabase
       .from('transactions')
       .insert({
         user_id: user.id,
         type: 'withdrawal',
-        ...validatedData,
+        amount: validatedData.amount,
+        portfolio_id: validatedData.portfolio_id || null,
+        description: validatedData.description || null,
+        status: 'completed',
       })
       .select()
       .single()
 
-    if (error) {
-      return handleSupabaseError(res, error)
+    if (txError) {
+      return handleSupabaseError(res, txError)
+    }
+
+    // Update user's available balance
+    const { data: userWallet, error: walletError } = await supabase
+      .from('user_wallets')
+      .select('available_balance')
+      .eq('user_id', user.id)
+      .single()
+
+    if (!walletError && userWallet) {
+      const newBalance = (userWallet.available_balance || 0) - validatedData.amount
+      if (newBalance < 0) {
+        return sendBadRequest(res, 'Insufficient balance')
+      }
+      await supabase
+        .from('user_wallets')
+        .update({ available_balance: newBalance })
+        .eq('user_id', user.id)
+    }
+
+    // Update portfolio total_invested if portfolio_id is provided
+    if (validatedData.portfolio_id) {
+      const { data: portfolio, error: portfolioError } = await supabase
+        .from('portfolios')
+        .select('total_invested')
+        .eq('id', validatedData.portfolio_id)
+        .eq('user_id', user.id)
+        .single()
+
+      if (!portfolioError && portfolio) {
+        const newTotal = Math.max(0, (portfolio.total_invested || 0) - validatedData.amount)
+        await supabase
+          .from('portfolios')
+          .update({ total_invested: newTotal })
+          .eq('id', validatedData.portfolio_id)
+      }
     }
 
     return sendCreated(res, { transaction })

@@ -37,6 +37,35 @@ export default async function handler(req, res) {
       return sendNotFound(res, 'Portfolio')
     }
 
+    // Fetch current assets for rollback if needed
+    const { data: currentAssets, error: fetchError } = await supabase
+      .from('portfolio_assets')
+      .select('*')
+      .eq('portfolio_id', portfolio_id)
+
+    if (fetchError) {
+      console.error('Assets fetch error:', fetchError)
+      return sendInternalError(res, fetchError.message)
+    }
+
+    // Validate new assets before making any changes
+    const assetRecords = assets.map(asset => {
+      if (!asset.symbol || typeof asset.weight !== 'number' || asset.weight < 0 || asset.weight > 100) {
+        throw new Error(`Invalid asset: ${JSON.stringify(asset)}`)
+      }
+      return {
+        portfolio_id,
+        symbol: asset.symbol,
+        weight: asset.weight,
+      }
+    })
+
+    // Validate total weight adds up to 100%
+    const totalWeight = assetRecords.reduce((sum, a) => sum + a.weight, 0)
+    if (Math.abs(totalWeight - 100) > 0.01) {
+      return sendBadRequest(res, `Asset weights must sum to 100% (got ${totalWeight}%)`)
+    }
+
     // Delete existing assets for this portfolio
     const { error: deleteError } = await supabase
       .from('portfolio_assets')
@@ -49,18 +78,21 @@ export default async function handler(req, res) {
     }
 
     // Insert new assets
-    const assetRecords = assets.map(asset => ({
-      portfolio_id,
-      symbol: asset.symbol,
-      weight: asset.weight,
-    }))
-
     const { error: insertError } = await supabase
       .from('portfolio_assets')
       .insert(assetRecords)
 
     if (insertError) {
       console.error('Assets insert error:', insertError)
+      
+      // Attempt rollback by restoring old assets
+      if (currentAssets && currentAssets.length > 0) {
+        const rollbackRecords = currentAssets.map(({ id, created_at, updated_at, ...asset }) => asset)
+        await supabase.from('portfolio_assets').insert(rollbackRecords).catch(err => {
+          console.error('Rollback failed:', err)
+        })
+      }
+      
       return sendInternalError(res, insertError.message)
     }
 

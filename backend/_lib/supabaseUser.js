@@ -25,7 +25,7 @@ function supabaseUser(req) {
 
 // Export for both ESM and CommonJS
 export default supabaseUser
-export const supabaseUser as supabaseUserExport
+export { supabaseUser }
 
 // CommonJS compatibility
 if (typeof module !== 'undefined' && module.exports) {
