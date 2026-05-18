@@ -1,34 +1,5 @@
 {
   "version": 2,
-  "env": {
-    "SUPABASE_URL": {
-      "required": true
-    },
-    "SUPABASE_ANON_KEY": {
-      "required": true
-    },
-    "SUPABASE_SERVICE_ROLE_KEY": {
-      "required": true
-    },
-    "MARKET_DATA_API_KEY": {
-      "required": false
-    },
-    "MARKET_DATA_BASE_URL": {
-      "required": false
-    },
-    "PRICE_CACHE_TTL_SECONDS": {
-      "required": false
-    },
-    "RESEND_API_KEY": {
-      "required": false
-    },
-    "EMAIL_FROM": {
-      "required": false
-    },
-    "ENVIRONMENT": {
-      "required": false
-    }
-  },
   "buildCommand": "npm install",
   "functions": {
     "api/**/*.js": {
