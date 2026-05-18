@@ -1,0 +1,182 @@
+<div id="deposit" class="page">
+  <div class="section">
+    <div style="max-width:600px;margin:0 auto">
+      <div style="margin-bottom:48px">
+        <div class="section-label">💳 Deposit Funds</div>
+        <h1 class="section-title">Add Money to Your Account</h1>
+        <p class="section-sub">Grow your portfolio by depositing funds from your bank account.</p>
+      </div>
+
+      <div class="deposit-card">
+        <div style="margin-bottom:32px;padding:16px;background:var(--teal-pale);border-radius:var(--radius);border:1px solid rgba(20,184,166,.3)">
+          <div style="font-size:.9rem;color:var(--text2);margin-bottom:8px"><strong>💡 Pro Tip:</strong></div>
+          <div style="font-size:.85rem;color:var(--text2)">Set up automatic deposits to grow your wealth consistently. Most investors who automate deposits reach their goals 2x faster.</div>
+        </div>
+
+        <form id="depositForm">
+          <!-- Amount Section -->
+          <div class="form-group">
+            <label class="form-label">Deposit Amount</label>
+            <div style="display:flex;gap:8px;margin-bottom:12px">
+              <input type="number" id="depositAmount" class="form-input" placeholder="500" min="10" max="50000" step="0.01" required style="flex:1"/>
+              <span style="display:flex;align-items:center;color:var(--text2);font-weight:500">USD</span>
+            </div>
+            <div style="font-size:.8rem;color:var(--text3)">Min: $10 · Max: $50,000 per day</div>
+          </div>
+
+          <!-- Quick Amount Buttons -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px">
+            <button type="button" class="quick-amount-btn" onclick="setDepositAmount(100)">$100</button>
+            <button type="button" class="quick-amount-btn" onclick="setDepositAmount(500)">$500</button>
+            <button type="button" class="quick-amount-btn" onclick="setDepositAmount(1000)">$1,000</button>
+            <button type="button" class="quick-amount-btn" onclick="setDepositAmount(5000)">$5,000</button>
+          </div>
+
+          <!-- Bank Account Selection -->
+          <div class="form-group">
+            <label class="form-label">From Bank Account</label>
+            <select id="bankAccountId" class="form-input" required>
+              <option value="">Select a bank account</option>
+              <option value="bank_usa_checking">✓ USA Bank Checking (****2847)</option>
+              <option value="bank_usa_savings">✓ USA Bank Savings (****5821)</option>
+              <option value="add_new">+ Add New Bank Account</option>
+            </select>
+          </div>
+
+          <!-- Deposit Method -->
+          <div class="form-group">
+            <label class="form-label">Deposit Method</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <label style="display:flex;align-items:center;padding:12px;border:2px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all .2s" onclick="setDepositMethod('ach')">
+                <input type="radio" name="method" value="ach" checked style="margin-right:8px"/>
+                <div>
+                  <div style="font-weight:600;color:var(--text);font-size:.9rem">ACH Transfer</div>
+                  <div style="font-size:.8rem;color:var(--text3)">1-2 business days</div>
+                </div>
+              </label>
+              <label style="display:flex;align-items:center;padding:12px;border:2px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all .2s" onclick="setDepositMethod('wire')">
+                <input type="radio" name="method" value="wire" style="margin-right:8px"/>
+                <div>
+                  <div style="font-weight:600;color:var(--text);font-size:.9rem">Wire Transfer</div>
+                  <div style="font-size:.8rem;color:var(--text3)">Same day (higher fee)</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Frequency -->
+          <div class="form-group">
+            <label class="form-label">Frequency</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <label style="display:flex;align-items:center;padding:12px;border:2px solid var(--green);border-radius:var(--radius);cursor:pointer;background:rgba(10,108,75,0.05)" onclick="setFrequency('once')">
+                <input type="radio" name="frequency" value="once" checked style="margin-right:8px"/>
+                <div>
+                  <div style="font-weight:600;color:var(--text);font-size:.9rem">One Time</div>
+                </div>
+              </label>
+              <label style="display:flex;align-items:center;padding:12px;border:2px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all .2s" onclick="setFrequency('monthly')">
+                <input type="radio" name="frequency" value="monthly" style="margin-right:8px"/>
+                <div>
+                  <div style="font-weight:600;color:var(--text);font-size:.9rem">Monthly Auto</div>
+                  <div style="font-size:.8rem;color:var(--text3)">Recommended</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Note -->
+          <div class="form-group">
+            <label class="form-label">Note (Optional)</label>
+            <input type="text" id="depositNote" class="form-input" placeholder="e.g., Monthly savings" maxlength="100"/>
+          </div>
+
+          <!-- Fee Notice -->
+          <div style="padding:12px;background:var(--bg2);border-radius:var(--radius);margin-bottom:24px;font-size:.85rem;color:var(--text2)">
+            <div style="margin-bottom:6px"><strong>ACH Transfer:</strong> Free</div>
+            <div><strong>Wire Transfer:</strong> $15.00</div>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="form-submit" style="width:100%">Continue to Review →</button>
+          <button type="button" class="btn btn-ghost" style="width:100%;margin-top:8px" onclick="showPage('dashboard',document.querySelector('.nav-links a:nth-child(5)'))">Cancel</button>
+        </form>
+      </div>
+
+      <!-- FAQ Section -->
+      <div style="margin-top:48px;padding-top:48px;border-top:1px solid var(--border)">
+        <div class="section-label">FAQ</div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div>
+            <div style="font-weight:600;color:var(--text);margin-bottom:4px">How long does a deposit take?</div>
+            <div style="font-size:.9rem;color:var(--text2)">ACH transfers typically take 1-2 business days. Wire transfers are processed same day.</div>
+          </div>
+          <div>
+            <div style="font-weight:600;color:var(--text);margin-bottom:4px">Is there a maximum deposit amount?</div>
+            <div style="font-size:.9rem;color:var(--text2)">Daily limit is $50,000. Higher limits available for verified accounts after contact support.</div>
+          </div>
+          <div>
+            <div style="font-weight:600;color:var(--text);margin-bottom:4px">Are deposits FDIC insured?</div>
+            <div style="font-size:.9rem;color:var(--text2)">Yes, cash deposits up to $250,000 are protected by FDIC insurance.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.deposit-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+}
+
+.quick-amount-btn {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--text2);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quick-amount-btn:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(10, 108, 75, 0.05);
+}
+</style>
+
+<script>
+function setDepositAmount(amount) {
+  document.getElementById('depositAmount').value = amount;
+}
+
+function setDepositMethod(method) {
+  document.querySelectorAll('input[name="method"]').forEach(r => r.checked = r.value === method);
+}
+
+function setFrequency(freq) {
+  document.querySelectorAll('input[name="frequency"]').forEach(r => r.checked = r.value === freq);
+}
+
+document.getElementById('depositForm')?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const amount = parseFloat(document.getElementById('depositAmount').value);
+  const bankAccountId = document.getElementById('bankAccountId').value;
+  const method = document.querySelector('input[name="method"]:checked').value;
+  const frequency = document.querySelector('input[name="frequency"]:checked').value;
+  const note = document.getElementById('depositNote').value;
+  
+  if (bankAccountId === 'add_new') {
+    alert('Bank account linking would redirect to Plaid or similar in production');
+    return;
+  }
+  
+  window.handleDeposit?.({ amount, bankAccountId, method, frequency, note });
+});
+</script>

@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "env": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "MARKET_DATA_API_KEY",
+    "MARKET_DATA_BASE_URL",
+    "PRICE_CACHE_TTL_SECONDS",
+    "RESEND_API_KEY",
+    "EMAIL_FROM",
+    "ENVIRONMENT"
+  ],
+  "buildCommand": "npm install",
+  "functions": {
+    "api/**/*.js": {
+      "memory": 3008,
+      "maxDuration": 60,
+      "runtime": "nodejs20.x"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "status": 404
+    }
+  ],
+  "regions": ["iad1"],
+  "cleanUrls": true,
+  "trailingSlash": false
+}

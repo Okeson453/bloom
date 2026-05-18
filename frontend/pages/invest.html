@@ -1,0 +1,60 @@
+<div id="invest" class="page">
+  <div class="section">
+    <div class="section-head">
+      <div class="section-label">Invest</div>
+      <h1 class="section-title">Choose Your Portfolio</h1>
+      <p class="section-sub">Browse expert-curated portfolios or build your own from scratch.</p>
+    </div>
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" onclick="filterPortfolios('all',this)">All</button>
+      <button class="filter-tab" onclick="filterPortfolios('beginner',this)">Beginner</button>
+      <button class="filter-tab" onclick="filterPortfolios('growth',this)">Growth</button>
+      <button class="filter-tab" onclick="filterPortfolios('income',this)">Income</button>
+      <button class="filter-tab" onclick="filterPortfolios('esg',this)">🌿 ESG</button>
+    </div>
+    <div class="invest-layout">
+      <div>
+        <div class="cards-grid" id="portfolioGrid"></div>
+        <div style="margin-top:28px;text-align:center">
+          <button class="btn btn-primary btn-lg" onclick="openModal()">🛠 Build Your Own Portfolio</button>
+        </div>
+        <div style="margin-top:40px;background:var(--teal-pale);border-radius:var(--radius);padding:20px 24px;display:flex;align-items:center;gap:16px;border:1px solid rgba(20,184,166,.3)">
+          <span style="font-size:1.8rem">💡</span>
+          <div>
+            <div style="font-weight:700;color:var(--green);margin-bottom:4px">Not sure where to start?</div>
+            <div style="font-size:.85rem;color:var(--text2)">Take our 2-minute quiz and get a personalised portfolio recommendation instantly.</div>
+          </div>
+          <button class="btn btn-teal" style="margin-left:auto;white-space:nowrap" onclick="openModal()">Take Quiz</button>
+        </div>
+      </div>
+      <div class="invest-sidebar">
+        <div class="widget">
+          <div class="widget-title">Market Movers</div>
+          <div class="movers-item"><span style="font-weight:700">AAPL</span><span class="up">+2.4%</span></div>
+          <div class="movers-item"><span style="font-weight:700">NVDA</span><span class="up">+5.1%</span></div>
+          <div class="movers-item"><span style="font-weight:700">TSLA</span><span class="down">-1.8%</span></div>
+          <div class="movers-item"><span style="font-weight:700">SPY</span><span class="up">+0.7%</span></div>
+          <div class="movers-item"><span style="font-weight:700">QQQ</span><span class="up">+1.2%</span></div>
+        </div>
+        <div class="widget">
+          <div class="widget-title">Risk Quiz Teaser</div>
+          <p style="font-size:.83rem;color:var(--text2);margin-bottom:14px">What's your investment goal?</p>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button class="quiz-opt" style="font-size:.82rem;padding:9px 12px">🏠 Buying a Home</button>
+            <button class="quiz-opt" style="font-size:.82rem;padding:9px 12px">🎓 Education Fund</button>
+            <button class="quiz-opt" style="font-size:.82rem;padding:9px 12px">🌴 Early Retirement</button>
+            <button class="quiz-opt" style="font-size:.82rem;padding:9px 12px">📈 Wealth Building</button>
+          </div>
+        </div>
+        <div class="widget">
+          <div class="widget-title">Popular This Week</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem"><span style="font-weight:700;color:var(--green)">#1</span><span style="color:var(--text2)">Balanced Growth</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem"><span style="font-weight:700;color:var(--green)">#2</span><span style="color:var(--text2)">Tech Leaders ESG</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem"><span style="font-weight:700;color:var(--green)">#3</span><span style="color:var(--text2)">Dividend Income</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`

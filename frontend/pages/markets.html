@@ -1,0 +1,60 @@
+<div id="markets" class="page">
+  <div class="section">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <div class="section-label">Markets</div>
+      <span style="font-size:.8rem;color:#22c55e;font-weight:600"><span class="live-dot"></span>Live</span>
+    </div>
+    <h1 class="section-title" style="margin-bottom:32px">Market Overview</h1>
+    <div class="indices-bar">
+      <div class="index-card"><div class="index-name">S&amp;P 500</div><div class="index-val">5,842.94</div><div class="index-change up">▲ +1.23% today</div></div>
+      <div class="index-card"><div class="index-name">NASDAQ</div><div class="index-val">18,472.31</div><div class="index-change up">▲ +1.87% today</div></div>
+      <div class="index-card"><div class="index-name">Dow Jones</div><div class="index-val">42,108.55</div><div class="index-change down">▼ -0.14% today</div></div>
+    </div>
+    <div class="markets-layout">
+      <div>
+        <div class="market-tabs" id="marketTabs">
+          <button class="tab-btn active" onclick="switchMarketTab('stocks',this)">Stocks</button>
+          <button class="tab-btn" onclick="switchMarketTab('etfs',this)">ETFs</button>
+          <button class="tab-btn" onclick="switchMarketTab('crypto',this)">Crypto</button>
+          <button class="tab-btn" onclick="switchMarketTab('bonds',this)">Bonds</button>
+        </div>
+        <div class="search-bar">
+          <input type="text" placeholder="Search by symbol or name…" oninput="filterMarket(this.value)" id="marketSearch"/>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+          <table class="market-table" id="marketTable">
+            <thead><tr><th>Symbol</th><th>Name</th><th>Price</th><th>24h %</th><th>Mkt Cap</th><th>Action</th></tr></thead>
+            <tbody id="marketBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="market-sidebar">
+        <div class="widget">
+          <div class="widget-title">🔥 Trending</div>
+          <div class="trending-item"><span style="font-weight:700">NVDA</span><span class="up">+5.1%</span></div>
+          <div class="trending-item"><span style="font-weight:700">MSFT</span><span class="up">+2.8%</span></div>
+          <div class="trending-item"><span style="font-weight:700">AMZN</span><span class="up">+1.9%</span></div>
+          <div class="trending-item"><span style="font-weight:700">META</span><span class="down">-0.6%</span></div>
+          <div class="trending-item"><span style="font-weight:700">TSLA</span><span class="down">-1.8%</span></div>
+        </div>
+        <div class="widget">
+          <div class="widget-title">⭐ Watchlist</div>
+          <div id="watchlist">
+            <p style="font-size:.82rem;color:var(--text3);text-align:center;padding:12px 0">Click "+" on any stock to add to watchlist</p>
+          </div>
+        </div>
+        <div class="widget">
+          <div class="widget-title">Market Sentiment</div>
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+            <div style="flex:7;height:10px;background:linear-gradient(90deg,#22c55e,#86efac);border-radius:5px 0 0 5px"></div>
+            <div style="flex:3;height:10px;background:linear-gradient(90deg,#fca5a5,#ef4444);border-radius:0 5px 5px 0"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:.75rem;font-weight:700">
+            <span class="up">70% Bullish</span><span class="down">30% Bearish</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

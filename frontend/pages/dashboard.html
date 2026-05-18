@@ -1,0 +1,241 @@
+<div id="dashboard" class="page">
+  <div class="section">
+    <div class="dashboard-layout">
+      <div class="dash-main">
+        <div class="dash-header">
+          <div>
+            <div class="dash-greeting">Good morning,</div>
+            <div class="dash-name">Alex Johnson 👋</div>
+          </div>
+          <div class="dash-balance-wrap">
+            <div class="dash-bal-label">Total Balance</div>
+            <div class="dash-balance" id="dashBalance">$24,832.40</div>
+            <div class="dash-change up">▲ +$312.50 (1.27%) today</div>
+          </div>
+        </div>
+        <div class="dash-quick">
+          <div class="quick-btn" onclick="showPage('deposit',null)" style="cursor:pointer;transition:all .2s"
+            onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+            <div class="quick-btn-icon">💳</div>
+            <div class="quick-btn-label">Deposit Funds</div>
+          </div>
+          <div class="quick-btn" onclick="showPage('withdraw',null)" style="cursor:pointer;transition:all .2s"
+            onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+            <div class="quick-btn-icon">🏦</div>
+            <div class="quick-btn-label">Withdraw</div>
+          </div>
+          <div class="quick-btn" onclick="showPage('rebalance',null)" style="cursor:pointer;transition:all .2s"
+            onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+            <div class="quick-btn-icon">⚖️</div>
+            <div class="quick-btn-label">Rebalance</div>
+          </div>
+        </div>
+        <div class="perf-card">
+          <div class="perf-header">
+            <div class="perf-title">Portfolio Performance</div>
+            <div class="perf-tabs">
+              <button class="perf-tab active" onclick="switchPerf(this,'1M')">1M</button>
+              <button class="perf-tab" onclick="switchPerf(this,'3M')">3M</button>
+              <button class="perf-tab" onclick="switchPerf(this,'1Y')">1Y</button>
+              <button class="perf-tab" onclick="switchPerf(this,'All')">All</button>
+            </div>
+          </div>
+          <div class="chart-area">
+            <svg class="chart-svg" viewBox="0 0 600 160" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#0A6C4B" stop-opacity="0.3" />
+                  <stop offset="100%" stop-color="#0A6C4B" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <path id="chartPath" d="" fill="url(#chartGrad)" stroke="#0A6C4B" stroke-width="2.5"
+                stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+        <div class="holdings-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+            <div style="font-size:1rem;font-weight:700;color:var(--text)">Holdings</div>
+            <button class="btn btn-ghost" style="padding:5px 12px;font-size:.78rem">View All</button>
+          </div>
+          <div class="holding-row">
+            <div class="holding-left">
+              <div class="holding-icon" style="background:#e8f5ef;color:#0A6C4B">SPY</div>
+              <div>
+                <div class="holding-name">SPDR S&P 500 ETF</div>
+                <div class="holding-sub">40% allocation · 12 shares</div>
+              </div>
+            </div>
+            <div class="holding-right">
+              <div class="holding-val">$9,932.80</div>
+              <div class="holding-pct up">▲ +1.3%</div>
+            </div>
+          </div>
+          <div class="holding-row">
+            <div class="holding-left">
+              <div class="holding-icon" style="background:#f0fdf4;color:#16a34a">QQQ</div>
+              <div>
+                <div class="holding-name">Invesco QQQ Trust</div>
+                <div class="holding-sub">25% allocation · 5 shares</div>
+              </div>
+            </div>
+            <div class="holding-right">
+              <div class="holding-val">$6,208.10</div>
+              <div class="holding-pct up">▲ +2.1%</div>
+            </div>
+          </div>
+          <div class="holding-row">
+            <div class="holding-left">
+              <div class="holding-icon" style="background:#f0fdf4;color:#14B8A6">AGG</div>
+              <div>
+                <div class="holding-name">iShares Core US Agg Bond</div>
+                <div class="holding-sub">20% allocation · 52 shares</div>
+              </div>
+            </div>
+            <div class="holding-right">
+              <div class="holding-val">$4,966.48</div>
+              <div class="holding-pct down">▼ -0.2%</div>
+            </div>
+          </div>
+          <div class="holding-row">
+            <div class="holding-left">
+              <div class="holding-icon" style="background:#fef9ee;color:#d97706">VNQ</div>
+              <div>
+                <div class="holding-name">Vanguard Real Estate ETF</div>
+                <div class="holding-sub">15% allocation · 24 shares</div>
+              </div>
+            </div>
+            <div class="holding-right">
+              <div class="holding-val">$3,724.86</div>
+              <div class="holding-pct up">▲ +0.5%</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-bottom:8px">
+          <div class="section-label">Goals</div>
+        </div>
+        <div class="goals-grid">
+          <div class="goal-card">
+            <div class="goal-header"><span class="goal-emoji">🏠</span><span class="goal-pct">47%</span></div>
+            <div class="goal-name">Buying a House</div>
+            <div class="goal-sub">$47k of $100k goal</div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:47%"></div>
+            </div>
+          </div>
+          <div class="goal-card">
+            <div class="goal-header"><span class="goal-emoji">🌴</span><span class="goal-pct">12%</span></div>
+            <div class="goal-name">Early Retirement</div>
+            <div class="goal-sub">$6k of $500k goal</div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:12%"></div>
+            </div>
+          </div>
+          <div class="goal-card">
+            <div class="goal-header"><span class="goal-emoji">🎓</span><span class="goal-pct">83%</span></div>
+            <div class="goal-name">MBA Fund</div>
+            <div class="goal-sub">$41.5k of $50k goal</div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:83%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="activity-card">
+          <div style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:16px">Recent Activity</div>
+          <div class="activity-item">
+            <div class="activity-left">
+              <div class="activity-icon" style="background:#e8f5ef">💰</div>
+              <div>
+                <div class="activity-desc">Monthly deposit</div>
+                <div class="activity-date">Today, 9:03 AM</div>
+              </div>
+            </div><span class="activity-amount up">+$200.00</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-left">
+              <div class="activity-icon" style="background:#e8f5ef">📊</div>
+              <div>
+                <div class="activity-desc">Portfolio rebalanced</div>
+                <div class="activity-date">Yesterday, 3:30 PM</div>
+              </div>
+            </div><span class="activity-amount" style="color:var(--text3)">Auto</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-left">
+              <div class="activity-icon" style="background:#fef9ee">💸</div>
+              <div>
+                <div class="activity-desc">Dividend received — SPY</div>
+                <div class="activity-date">May 9, 2025</div>
+              </div>
+            </div><span class="activity-amount up">+$18.42</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-left">
+              <div class="activity-icon" style="background:#e8f5ef">💰</div>
+              <div>
+                <div class="activity-desc">Monthly deposit</div>
+                <div class="activity-date">May 1, 2025</div>
+              </div>
+            </div><span class="activity-amount up">+$200.00</span>
+          </div>
+        </div>
+      </div>
+      <div class="dash-sidebar">
+        <div class="widget">
+          <div class="widget-title">Portfolio Breakdown</div>
+          <svg viewBox="0 0 160 160" style="width:100%;max-width:160px;display:block;margin:0 auto">
+            <circle cx="80" cy="80" r="60" fill="none" stroke="#e2ebe7" stroke-width="28" />
+            <circle cx="80" cy="80" r="60" fill="none" stroke="#0A6C4B" stroke-width="28"
+              stroke-dasharray="150.72 226.08" stroke-dashoffset="0" transform="rotate(-90 80 80)" />
+            <circle cx="80" cy="80" r="60" fill="none" stroke="#14B8A6" stroke-width="28" stroke-dasharray="94.2 282.6"
+              stroke-dashoffset="-150.72" transform="rotate(-90 80 80)" />
+            <circle cx="80" cy="80" r="60" fill="none" stroke="#5eead4" stroke-width="28"
+              stroke-dasharray="75.36 301.44" stroke-dashoffset="-244.92" transform="rotate(-90 80 80)" />
+            <circle cx="80" cy="80" r="60" fill="none" stroke="#f59e0b" stroke-width="28"
+              stroke-dasharray="56.52 320.28" stroke-dashoffset="-320.28" transform="rotate(-90 80 80)" />
+          </svg>
+          <div class="pie-legend">
+            <div class="pie-legend-item">
+              <div class="pie-color" style="background:#0A6C4B"></div><span class="pie-label">S&P 500 ETF</span><span
+                class="pie-pct">40%</span>
+            </div>
+            <div class="pie-legend-item">
+              <div class="pie-color" style="background:#14B8A6"></div><span class="pie-label">QQQ ETF</span><span
+                class="pie-pct">25%</span>
+            </div>
+            <div class="pie-legend-item">
+              <div class="pie-color" style="background:#5eead4"></div><span class="pie-label">Bonds</span><span
+                class="pie-pct">20%</span>
+            </div>
+            <div class="pie-legend-item">
+              <div class="pie-color" style="background:#f59e0b"></div><span class="pie-label">Real Estate</span><span
+                class="pie-pct">15%</span>
+            </div>
+          </div>
+        </div>
+        <div class="widget">
+          <div class="widget-title">Your Stats</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;font-size:.85rem"><span
+                style="color:var(--text2)">Total Invested</span><span
+                style="font-weight:700;color:var(--text)">$19,200</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:.85rem"><span
+                style="color:var(--text2)">Total Returns</span><span style="font-weight:700"
+                class="up">+$5,632.40</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:.85rem"><span
+                style="color:var(--text2)">All-time %</span><span style="font-weight:700" class="up">+29.3%</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:.85rem"><span
+                style="color:var(--text2)">Monthly avg.</span><span
+                style="font-weight:700;color:var(--text)">$200/mo</span></div>
+          </div>
+        </div>
+        <div class="widget">
+          <div class="widget-title">Monthly Summary</div>
+          <p style="font-size:.82rem;color:var(--text2);line-height:1.7">Your money is working hard 💪 This month you
+            earned <strong style="color:var(--green)">$312.50</strong> — that's more than many people earn in passive
+            income in a full year.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

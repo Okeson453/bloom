@@ -1,0 +1,8 @@
+export const portfolios = [
+  {name:'Conservative',risk:'Low Risk',riskClass:'risk-low',ret:'+7.2%',retColor:'var(--green)',tags:['beginner','income'],alloc:[{n:'Bonds & Fixed Income',p:60,c:'#0A6C4B'},{n:'Large Cap ETFs',p:25,c:'#14B8A6'},{n:'Cash Equivalents',p:15,c:'#5eead4'}]},
+  {name:'Balanced Growth',risk:'Moderate',riskClass:'risk-mid',ret:'+12.8%',retColor:'var(--teal)',tags:['all','beginner','growth'],alloc:[{n:'US Equities',p:40,c:'#0A6C4B'},{n:"Int'l ETFs",p:30,c:'#14B8A6'},{n:'Bonds',p:20,c:'#5eead4'},{n:'REITs',p:10,c:'#f59e0b'}]},
+  {name:'Aggressive Growth',risk:'High Risk',riskClass:'risk-high',ret:'+21.4%',retColor:'#f59e0b',tags:['growth'],alloc:[{n:'Growth Stocks',p:50,c:'#0A6C4B'},{n:'Emerging Markets',p:20,c:'#14B8A6'},{n:'Small Cap',p:20,c:'#5eead4'},{n:'Crypto',p:10,c:'#f59e0b'}]},
+  {name:'Tech Leaders ESG',risk:'Moderate',riskClass:'risk-mid',ret:'+18.3%',retColor:'var(--teal)',tags:['esg','growth'],alloc:[{n:'Tech ESG ETF',p:55,c:'#0A6C4B'},{n:'Clean Energy',p:25,c:'#14B8A6'},{n:'Sustainable Bonds',p:20,c:'#5eead4'}]},
+  {name:'Dividend Income',risk:'Low Risk',riskClass:'risk-low',ret:'+9.1%',retColor:'var(--green)',tags:['income','beginner'],alloc:[{n:'Dividend Stocks',p:50,c:'#0A6C4B'},{n:'REITs',p:30,c:'#14B8A6'},{n:'Bonds',p:20,c:'#5eead4'}]},
+  {name:'Global Diversified',risk:'Moderate',riskClass:'risk-mid',ret:'+14.6%',retColor:'var(--teal)',tags:['all','growth'],alloc:[{n:'US Equities',p:35,c:'#0A6C4B'},{n:'Europe ETF',p:25,c:'#14B8A6'},{n:'Asia Pacific',p:25,c:'#5eead4'},{n:'Bonds',p:15,c:'#f59e0b'}]},
+];
