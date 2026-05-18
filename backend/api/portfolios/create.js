@@ -25,8 +25,16 @@ export default async function handler(req, res) {
             return sendBadRequest(res, 'Missing required fields: name, risk_level')
         }
 
-        if (!['conservative', 'moderate', 'aggressive'].includes(risk_level)) {
-            return sendBadRequest(res, 'Invalid risk_level')
+        // Map frontend risk levels to database risk levels
+        const riskLevelMap = {
+            'conservative': 'low',
+            'moderate': 'medium',
+            'aggressive': 'high'
+        }
+
+        const dbRiskLevel = riskLevelMap[risk_level]
+        if (!dbRiskLevel) {
+            return sendBadRequest(res, 'Invalid risk_level. Must be: conservative, moderate, or aggressive')
         }
 
         // Create portfolio
@@ -35,7 +43,7 @@ export default async function handler(req, res) {
             .insert({
                 user_id: user.id,
                 name,
-                risk_level,
+                risk_level: dbRiskLevel,
                 description,
             })
             .select()

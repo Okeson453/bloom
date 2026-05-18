@@ -4,7 +4,7 @@
  */
 
 import supabaseUser from '../../_lib/supabaseUser.js'
-import { sendOk, sendBadRequest, sendInternalError } from '../../_lib/response.js'
+import { sendOk, sendBadRequest, sendUnauthorized, sendInternalError } from '../../_lib/response.js'
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -12,6 +12,15 @@ export default async function handler(req, res) {
   }
 
   try {
+    const supabase = supabaseUser(req)
+
+    // Authenticate the user
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      return sendUnauthorized(res, 'User not authenticated')
+    }
+
     const { symbols } = req.query
 
     if (!symbols) {
@@ -19,8 +28,6 @@ export default async function handler(req, res) {
     }
 
     const symbolList = Array.isArray(symbols) ? symbols : [symbols]
-
-    const supabase = supabaseUser(req)
 
     // Fetch cached prices
     const { data: prices, error: pricesError } = await supabase
