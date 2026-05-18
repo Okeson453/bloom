@@ -1,6 +1,7 @@
 {
   "name": "bloom-finance-backend",
   "version": "2.0.0",
+  "type": "module",
   "description": "Bloom Finance — Serverless Backend (Vercel + Supabase, Node.js 20)",
   "author": "Bloom Finance Engineering",
   "license": "UNLICENSED",

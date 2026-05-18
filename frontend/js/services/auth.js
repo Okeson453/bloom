@@ -214,6 +214,13 @@ class AuthService {
     getAuthToken() {
         return httpClient.authToken;
     }
+
+    /**
+     * Get auth token (alias for compatibility)
+     */
+    getToken() {
+        return httpClient.authToken;
+    }
 }
 
 export default new AuthService();

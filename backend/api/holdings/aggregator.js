@@ -21,6 +21,4 @@ function buildTimeSeries(snapshots, metric = 'total_value') {
         })
 }
 
-module.exports = {
-    buildTimeSeries,
-}
+export { buildTimeSeries }

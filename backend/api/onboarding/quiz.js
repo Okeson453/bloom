@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 
   try {
     const supabase = supabaseUser(req)
-    const { data: user, error: authError } = await supabase.auth.getUser()
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
 
     if (authError || !user) {
       return sendUnauthorized(res, 'User not authenticated')

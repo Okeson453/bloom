@@ -1,4 +1,4 @@
-import { showPage } from './router.js';
+import { showPage, initRouter } from './router.js';
 import { toggleTheme, initTheme } from './theme.js';
 import { updateCalc, initCalculator } from './modules/calculator.js';
 import { goTesti, initCarousel } from './modules/carousel.js';
@@ -129,16 +129,26 @@ document.addEventListener('DOMContentLoaded', () => {
   // Check authentication status and update UI
   if (authService.isLoggedIn()) {
     const user = authService.getCurrentUser();
-    const loginBtn = document.querySelector('.nav-actions .btn:nth-child(2)');
-    const signupBtn = document.querySelector('.nav-actions .btn:nth-child(3)');
+    const navActions = document.querySelector('.nav-actions');
+    
+    if (navActions) {
+      // Safely find login and signup buttons
+      const buttons = navActions.querySelectorAll('.btn');
+      
+      if (buttons.length >= 2) {
+        const loginBtn = buttons[0];
+        const signupBtn = buttons[1];
 
-    if (loginBtn && signupBtn) {
-      loginBtn.textContent = user?.given_name || 'Account';
-      loginBtn.onclick = () => window.showPage('dashboard', document.querySelector('.nav-links a:nth-child(5)'));
-      signupBtn.textContent = 'Log Out';
-      signupBtn.onclick = () => window.handleLogout();
+        if (loginBtn && signupBtn) {
+          loginBtn.textContent = user?.given_name || 'Account';
+          loginBtn.onclick = () => window.showPage('dashboard', document.querySelector('.nav-links a:nth-child(5)'));
+          signupBtn.textContent = 'Log Out';
+          signupBtn.onclick = () => window.handleLogout();
+        }
+      }
     }
   }
 
-  showPage('home', document.querySelector('.nav-links a.active'));
+  // Initialize router for SPA navigation
+  initRouter();
 });

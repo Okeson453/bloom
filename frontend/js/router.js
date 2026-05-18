@@ -7,6 +7,9 @@ import { initCarousel } from './modules/carousel.js';
 const pageCache = {};
 let currentPage = null;
 
+/**
+ * Navigate to a page (called from hash or onclick handlers)
+ */
 export async function showPage(id, linkEl) {
   try {
     const app = document.getElementById('app');
@@ -30,7 +33,7 @@ export async function showPage(id, linkEl) {
 
     // Replace content
     app.innerHTML = pageCache[id];
-    
+
     // Add active class to the new page
     setTimeout(() => {
       const page = document.getElementById(id);
@@ -39,7 +42,7 @@ export async function showPage(id, linkEl) {
         currentPage = id;
       }
     }, 0);
-    
+
     window.scrollTo(0, 0);
 
     // Initialize page-specific content
@@ -67,6 +70,32 @@ export async function showPage(id, linkEl) {
     }
   } catch (e) {
     console.error('Error in showPage:', e);
-    document.getElementById('app').innerHTML = `<div style="padding:40px;text-align:center;color:#c33"><h2>Error loading page</h2><p>${e.message}</p></div>`;
+    const appContainer = document.getElementById('app');
+    if (appContainer) {
+      appContainer.innerHTML = `<div style="padding:40px;text-align:center;color:#c33"><h2>Error loading page</h2><p>${e.message}</p></div>`;
+    }
   }
+}
+
+/**
+ * Handle hash navigation (SPA routing)
+ */
+function handleHashNavigation() {
+  const hash = window.location.hash.slice(1); // Remove '#' prefix
+  const pageId = hash || 'home';
+
+  // Get the corresponding nav link
+  const navLink = document.querySelector(`.nav-links a[href="#${pageId}"]`);
+  showPage(pageId, navLink);
+}
+
+/**
+ * Initialize router and listen for hash changes
+ */
+export function initRouter() {
+  // Handle initial page load
+  handleHashNavigation();
+
+  // Listen for hash changes
+  window.addEventListener('hashchange', handleHashNavigation);
 }
