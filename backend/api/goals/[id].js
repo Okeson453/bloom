@@ -3,10 +3,10 @@
  * Delete a financial goal
  */
 
-const { supabaseUser } = require('../../_lib/supabaseUser')
-const { sendOk, sendUnauthorized, sendNotFound, handleSupabaseError } = require('../../_lib/response')
+import supabaseUser from '../../_lib/supabaseUser.js'
+import { sendOk, sendUnauthorized, sendNotFound, handleSupabaseError } from '../../_lib/response.js'
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== 'DELETE') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
     }
 
     const supabase = supabaseUser(req)
-    const { data: user, error: authError } = await supabase.auth.getUser()
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
 
     if (authError || !user) {
       return sendUnauthorized(res, 'User not authenticated')

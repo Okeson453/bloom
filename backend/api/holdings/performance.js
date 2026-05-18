@@ -3,18 +3,18 @@
  * Get holding performance metrics
  */
 
-const { supabaseUser } = require('../../_lib/supabaseUser')
-const { buildTimeSeries } = require('./aggregator')
-const { sendOk, sendUnauthorized, handleSupabaseError } = require('../../_lib/response')
+import supabaseUser from '../../_lib/supabaseUser.js'
+import { buildTimeSeries } from './aggregator.js'
+import { sendOk, sendUnauthorized, handleSupabaseError } from '../../_lib/response.js'
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
   try {
     const supabase = supabaseUser(req)
-    const { data: user, error: authError } = await supabase.auth.getUser()
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
 
     if (authError || !user) {
       return sendUnauthorized(res, 'User not authenticated')
