@@ -2,17 +2,35 @@
     "version": 2,
     "buildCommand": "cd backend && npm install",
     "outputDirectory": "frontend",
-    "env": [
-        "SUPABASE_URL",
-        "SUPABASE_ANON_KEY",
-        "SUPABASE_SERVICE_ROLE_KEY",
-        "MARKET_DATA_API_KEY",
-        "MARKET_DATA_BASE_URL",
-        "PRICE_CACHE_TTL_SECONDS",
-        "RESEND_API_KEY",
-        "EMAIL_FROM",
-        "ENVIRONMENT"
-    ],
+    "env": {
+        "SUPABASE_URL": {
+            "required": true
+        },
+        "SUPABASE_ANON_KEY": {
+            "required": true
+        },
+        "SUPABASE_SERVICE_ROLE_KEY": {
+            "required": true
+        },
+        "MARKET_DATA_API_KEY": {
+            "required": false
+        },
+        "MARKET_DATA_BASE_URL": {
+            "required": false
+        },
+        "PRICE_CACHE_TTL_SECONDS": {
+            "required": false
+        },
+        "RESEND_API_KEY": {
+            "required": false
+        },
+        "EMAIL_FROM": {
+            "required": false
+        },
+        "ENVIRONMENT": {
+            "required": false
+        }
+    },
     "functions": {
         "backend/api/**/*.js": {
             "memory": 3008,
