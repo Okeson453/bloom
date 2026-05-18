@@ -3,9 +3,9 @@
  * Search for market data by symbol
  */
 
-const { sendOk, sendBadRequest } = require('../../_lib/response')
+import { sendOk, sendBadRequest } from '../../_lib/response.js'
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' })
   }

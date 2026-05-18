@@ -3,10 +3,10 @@
  * Get a specific article by slug
  */
 
-const { supabaseUser } = require('../../_lib/supabaseUser')
-const { sendOk, sendNotFound, handleSupabaseError } = require('../../_lib/response')
+import supabaseUser from '../../_lib/supabaseUser.js'
+import { sendOk, sendNotFound, handleSupabaseError } from '../../_lib/response.js'
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' })
   }

@@ -3,11 +3,11 @@
  * Submit quiz responses
  */
 
-const { supabaseUser } = require('../../_lib/supabaseUser')
-const { scoreQuiz, buildRecommendationReason } = require('./scorer')
-const { sendOk, sendUnauthorized, handleSupabaseError } = require('../../_lib/response')
+import supabaseUser from '../../_lib/supabaseUser.js'
+import { scoreQuiz, buildRecommendationReason } from './scorer.js'
+import { sendOk, sendUnauthorized, handleSupabaseError } from '../../_lib/response.js'
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
