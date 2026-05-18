@@ -56,7 +56,4 @@ function buildRecommendationReason(responses, score) {
     return reasons.join('. ') + '.'
 }
 
-module.exports = {
-    scoreQuiz,
-    buildRecommendationReason,
-}
+export { scoreQuiz, buildRecommendationReason }
