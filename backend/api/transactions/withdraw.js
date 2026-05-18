@@ -3,16 +3,16 @@
  * Create a withdrawal transaction
  */
 
-const { supabaseUser } = require('../../_lib/supabaseUser')
-const { validate, createTransactionSchema } = require('../../_lib/validate')
-const {
+import supabaseUser from '../../_lib/supabaseUser.js'
+import { validate, createTransactionSchema } from '../../_lib/validate.js'
+import {
   sendCreated,
   sendUnauthorized,
   sendBadRequest,
   handleSupabaseError,
-} = require('../../_lib/response')
+} from '../../_lib/response.js'
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
