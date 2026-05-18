@@ -1,0 +1,36 @@
+{
+    "version": 2,
+    "buildCommand": "cd backend && npm install",
+    "outputDirectory": "frontend",
+    "env": [
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "MARKET_DATA_API_KEY",
+        "MARKET_DATA_BASE_URL",
+        "PRICE_CACHE_TTL_SECONDS",
+        "RESEND_API_KEY",
+        "EMAIL_FROM",
+        "ENVIRONMENT"
+    ],
+    "functions": {
+        "backend/api/**/*.js": {
+            "memory": 3008,
+            "maxDuration": 60,
+            "runtime": "nodejs20.x"
+        }
+    },
+    "regions": [
+        "iad1"
+    ],
+    "rewrites": [
+        {
+            "source": "/api/:path*",
+            "destination": "/backend/api/:path*"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
+}
