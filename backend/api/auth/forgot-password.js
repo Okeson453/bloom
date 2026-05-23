@@ -3,35 +3,43 @@
  * Request password reset
  */
 
-import { getSupabaseAdmin } from '../../_lib/supabase.js'
+import { createClient } from '@supabase/supabase-js'
 import { sendOk, sendBadRequest } from '../../_lib/response.js'
+import { withCors } from '../../_lib/cors.js'
 
-export default async function handler(req, res) {
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' })
+async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' })
+  }
+
+  try {
+    const { email } = req.body
+
+    if (!email) {
+      return sendBadRequest(res, 'Email is required')
     }
 
-    try {
-        const { email } = req.body
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_ANON_KEY
+    )
 
-        if (!email) {
-            return sendBadRequest(res, 'Email is required')
-        }
+    // Send password reset email
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${req.headers.origin || 'https://bloom-taupe-iota.vercel.app'}/auth/reset-password`,
+    })
 
-        const supabase = getSupabaseAdmin()
-
-        // Send password reset email
-        const { error } = await supabase.auth.resetPasswordForEmail(email)
-
-        if (error) {
-            return sendBadRequest(res, error.message)
-        }
-
-        return sendOk(res, {
-            message: 'Password reset instructions sent to email',
-        })
-    } catch (error) {
-        console.error('Error in forgot password:', error)
-        return res.status(500).json({ error: 'Internal server error' })
+    if (error) {
+      return sendBadRequest(res, error.message)
     }
+
+    return sendOk(res, {
+      message: 'Password reset instructions sent to email',
+    })
+  } catch (error) {
+    console.error('Error in forgot password:', error)
+    return res.status(500).json({ error: 'Internal server error' })
+  }
 }
+
+export default withCors(handler)

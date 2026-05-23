@@ -6,21 +6,37 @@
 const getApiBaseUrl = () => {
     if (typeof window !== 'undefined' && window.location) {
         const hostname = window.location.hostname;
-        const port = window.location.port;
+        const protocol = window.location.protocol;
 
         // Local development
         if (hostname === 'localhost' || hostname === '127.0.0.1') {
-            return 'http://localhost:3000/api';
+            return 'http://localhost:3001/api';
         }
 
         // Production or deployed environments
-        if (hostname.includes('bloomfinance') || hostname.includes('bloom-')) {
-            return `https://${hostname}/api`;
+        // If frontend and backend are on different Vercel projects/domains, 
+        // you MUST set the backend URL explicitly
+        
+        // Check for environment variable set at build time
+        if (typeof window !== 'undefined' && window.__BACKEND_URL__) {
+            return window.__BACKEND_URL__;
         }
+
+        // For development: if running on Vercel preview/production,
+        // assume backend is at a specific domain pattern
+        // IMPORTANT: Update this to match your actual backend deployment URL
+        if (hostname.includes('bloom')) {
+            // Example: if frontend is at bloom-frontend.vercel.app
+            // Update backend URL to your actual backend deployment
+            return 'https://bloom-drj4684uf-okesons-projects.vercel.app/api';
+        }
+
+        // Fallback: try same origin (works if frontend and backend share the same domain)
+        return `${protocol}//${hostname}/api`;
     }
 
-    // Default fallback (browser-safe)
-    return 'http://localhost:3000/api';
+    // Fallback for SSR/edge environments
+    return '/api';
 };
 
 export const API_CONFIG = {

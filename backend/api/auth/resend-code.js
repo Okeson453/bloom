@@ -3,10 +3,11 @@
  * Resend verification code to email
  */
 
-import { getSupabaseAdmin } from '../../_lib/supabase.js'
+import { createClient } from '@supabase/supabase-js'
 import { sendOk, sendBadRequest } from '../../_lib/response.js'
+import { withCors } from '../../_lib/cors.js'
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
@@ -18,10 +19,14 @@ export default async function handler(req, res) {
       return sendBadRequest(res, 'Email is required')
     }
 
-    const supabase = getSupabaseAdmin()
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_ANON_KEY
+    )
 
-    // Send OTP
-    const { error } = await supabase.auth.signInWithOtp({
+    // Resend verification code for signup
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
       email,
     })
 
@@ -30,10 +35,12 @@ export default async function handler(req, res) {
     }
 
     return sendOk(res, {
-      message: 'Verification code sent to email',
+      message: 'Verification code resent',
     })
   } catch (error) {
     console.error('Error in resend code:', error)
     return res.status(500).json({ error: 'Internal server error' })
   }
 }
+
+export default withCors(handler)

@@ -99,6 +99,22 @@ ENVIRONMENT=development
 
 Or push to GitHub and let Vercel auto-deploy.
 
+### 🚀 Production Deployment Guides
+
+Complete guides for launching to production:
+
+| Guide | Purpose | Time |
+|-------|---------|------|
+| [**QUICK_ACTION_SUMMARY.md**](QUICK_ACTION_SUMMARY.md) | Start here! Your immediate to-do list | 5 min |
+| [**PRODUCTION_DEPLOYMENT_CHECKLIST.md**](PRODUCTION_DEPLOYMENT_CHECKLIST.md) | Complete deployment checklist | 15 min |
+| [**ENV_SETUP_QUICK_REFERENCE.md**](ENV_SETUP_QUICK_REFERENCE.md) | Set up environment variables | 10 min |
+| [**CUSTOM_DOMAIN_SETUP.md**](CUSTOM_DOMAIN_SETUP.md) | Buy domain & connect to Vercel | 20 min |
+| [**API_TESTING_GUIDE.md**](API_TESTING_GUIDE.md) | Test all critical endpoints | 15 min |
+| [**PERFORMANCE_OPTIMIZATION.md**](PERFORMANCE_OPTIMIZATION.md) | Optimize slow endpoints | 20 min |
+| [**TROUBLESHOOTING_GUIDE.md**](TROUBLESHOOTING_GUIDE.md) | Fix common deployment issues | reference |
+
+**👉 Start with [QUICK_ACTION_SUMMARY.md](QUICK_ACTION_SUMMARY.md) for your immediate next steps.**
+
 ## 🔧 Recent Fixes (v2.0.0)
 
 ### Critical Issues Resolved

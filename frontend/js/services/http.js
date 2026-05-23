@@ -151,7 +151,7 @@ class HttpClient {
             const response = await this.request(
                 'POST',
                 API_CONFIG.ENDPOINTS.AUTH.REFRESH,
-                { refreshToken: this.refreshToken },
+                { refresh_token: this.refreshToken },
                 {},
                 { skipAuth: true }
             );

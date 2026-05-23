@@ -3,10 +3,11 @@
  * Confirm email verification code
  */
 
-import { getSupabaseAdmin } from '../../_lib/supabase.js'
+import { createClient } from '@supabase/supabase-js'
 import { sendOk, sendBadRequest, sendUnauthorized } from '../../_lib/response.js'
+import { withCors } from '../../_lib/cors.js'
 
-export default async function handler(req, res) {
+async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' })
     }
@@ -18,7 +19,10 @@ export default async function handler(req, res) {
             return sendBadRequest(res, 'Email and verification code are required')
         }
 
-        const supabase = getSupabaseAdmin()
+        const supabase = createClient(
+            process.env.SUPABASE_URL,
+            process.env.SUPABASE_ANON_KEY
+        )
 
         // Verify OTP
         const { data, error } = await supabase.auth.verifyOtp({
@@ -43,3 +47,5 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'Internal server error' })
     }
 }
+
+export default withCors(handler)

@@ -1,12 +1,13 @@
 /**
  * POST /api/auth/signup
- * Register a new user
+ * Register a new user with email verification
  */
 
-import { getSupabaseAdmin } from '../../_lib/supabase.js'
+import { createClient } from '@supabase/supabase-js'
 import { sendCreated, sendBadRequest } from '../../_lib/response.js'
+import { withCors } from '../../_lib/cors.js'
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
@@ -18,15 +19,20 @@ export default async function handler(req, res) {
       return sendBadRequest(res, 'Email and password are required')
     }
 
-    const supabase = getSupabaseAdmin()
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_ANON_KEY
+    )
 
-    // Create user with Supabase Auth
-    const { data, error } = await supabase.auth.admin.createUser({
+    // Use standard signup (triggers email verification OTP automatically)
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      user_metadata: {
-        given_name,
-        family_name,
+      options: {
+        data: {
+          given_name,
+          family_name,
+        },
       },
     })
 
@@ -45,16 +51,21 @@ export default async function handler(req, res) {
 
     if (profileError) {
       console.error('Profile creation error:', profileError)
-      // Still return success since user was created in auth
+      return sendBadRequest(
+        res,
+        'User created but profile setup failed: ' + profileError.message
+      )
     }
 
     return sendCreated(res, {
       userId: data.user.id,
       email: data.user.email,
-      message: 'User created successfully. Please verify your email.',
+      message: 'User created. Please check your email for the verification code.',
     })
   } catch (error) {
     console.error('Error in signup:', error)
     return res.status(500).json({ error: 'Internal server error' })
   }
 }
+
+export default withCors(handler)
