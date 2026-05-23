@@ -5,8 +5,9 @@
 
 import supabaseUser from '../../_lib/supabaseUser.js'
 import { sendOk, sendUnauthorized, sendNotFound, sendBadRequest, sendInternalError } from '../../_lib/response.js'
+import { withCors } from '../../_lib/cors.js'
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'PUT') {
     return res.status(405).json({ error: 'Method Not Allowed' })
   }
@@ -84,7 +85,7 @@ export default async function handler(req, res) {
 
     if (insertError) {
       console.error('Assets insert error:', insertError)
-      
+
       // Attempt rollback by restoring old assets
       if (currentAssets && currentAssets.length > 0) {
         const rollbackRecords = currentAssets.map(({ id, created_at, updated_at, ...asset }) => asset)
@@ -92,7 +93,7 @@ export default async function handler(req, res) {
           console.error('Rollback failed:', err)
         })
       }
-      
+
       return sendInternalError(res, insertError.message)
     }
 
@@ -102,3 +103,5 @@ export default async function handler(req, res) {
     return sendInternalError(res, error.message)
   }
 }
+
+export default withCors(handler)

@@ -5,8 +5,9 @@
 
 import supabaseUser from '../../_lib/supabaseUser.js'
 import { sendOk, sendUnauthorized, sendInternalError } from '../../_lib/response.js'
+import { withCors } from '../../_lib/cors.js'
 
-export default async function handler(req, res) {
+async function handler(req, res) {
     if (req.method !== 'GET') {
         return res.status(405).json({ error: 'Method Not Allowed' })
     }
@@ -37,3 +38,5 @@ export default async function handler(req, res) {
         return sendInternalError(res, error.message)
     }
 }
+
+export default withCors(handler)

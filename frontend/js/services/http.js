@@ -73,6 +73,11 @@ class HttpClient {
         const url = this.buildUrl(endpoint, params);
         const headers = this.getAuthHeaders();
 
+        // Skip authorization header if requested (e.g., for token refresh)
+        if (options.skipAuth) {
+            delete headers['Authorization'];
+        }
+
         const fetchOptions = {
             method,
             headers,
