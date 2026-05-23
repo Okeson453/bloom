@@ -5,8 +5,9 @@
 
 import supabaseUser from '../../_lib/supabaseUser.js'
 import { sendOk, sendUnauthorized, sendNotFound, sendInternalError } from '../../_lib/response.js'
+import { withCors } from '../../_lib/cors.js'
 
-export default async function handler(req, res) {
+export default withCors(async function handler(req, res) {
     const { id } = req.query
 
     if (req.method !== 'GET') {

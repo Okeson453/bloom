@@ -5,8 +5,9 @@
 
 import supabaseUser from '../../_lib/supabaseUser.js'
 import { sendOk, sendBadRequest, sendUnauthorized } from '../../_lib/response.js'
+import { withCors } from '../../_lib/cors.js'
 
-export default async function handler(req, res) {
+export default withCors(async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
@@ -39,4 +40,4 @@ export default async function handler(req, res) {
     console.error('Error searching market data:', error)
     return res.status(500).json({ error: 'Internal server error' })
   }
-}
+})
