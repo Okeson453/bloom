@@ -1,11 +1,11 @@
 /**
- * POST /api/portfolios/[id]/rebalance
- * Rebalance a specific portfolio
+ * POST /api/portfolios/[id]/invest
+ * Invest in a specific portfolio
  */
 
-import supabaseUser from '../../../_lib/supabaseUser.js'
-import { sendOk, sendUnauthorized, sendNotFound, sendBadRequest, sendInternalError } from '../../../_lib/response.js'
-import { withCors } from '../../../_lib/cors.js'
+import supabaseUser from '../../_lib/supabaseUser.js'
+import { sendOk, sendUnauthorized, sendNotFound, sendBadRequest, sendInternalError } from '../../_lib/response.js'
+import { withCors } from '../../_lib/cors.js'
 
 export default withCors(async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -22,9 +22,10 @@ export default withCors(async function handler(req, res) {
 
         // Get portfolio ID from path parameter
         const { id: portfolio_id } = req.query
+        const { amount } = req.body
 
-        if (!portfolio_id) {
-            return sendBadRequest(res, 'Portfolio ID is required')
+        if (!portfolio_id || !amount || amount <= 0) {
+            return sendBadRequest(res, 'Missing or invalid portfolio_id or amount')
         }
 
         // Get portfolio
@@ -39,25 +40,25 @@ export default withCors(async function handler(req, res) {
             return sendNotFound(res, 'Portfolio')
         }
 
-        // Update portfolio rebalance date
-        const { data: updatedPortfolio, error: updateError } = await supabase
-            .from('portfolios')
-            .update({
-                rebalanced_at: new Date().toISOString(),
+        // Create transaction
+        const { data: transaction, error: txError } = await supabase
+            .from('transactions')
+            .insert({
+                user_id: user.id,
+                type: 'investment',
+                amount,
+                portfolio_id,
+                status: 'completed',
             })
-            .eq('id', portfolio_id)
             .select()
             .single()
 
-        if (updateError) {
-            console.error('Rebalance error:', updateError)
-            return sendInternalError(res, updateError.message)
+        if (txError) {
+            console.error('Transaction create error:', txError)
+            return sendInternalError(res, txError.message)
         }
 
-        return sendOk(res, {
-            portfolio: updatedPortfolio,
-            message: 'Portfolio rebalanced successfully',
-        })
+        return sendOk(res, transaction)
     } catch (error) {
         console.error('Handler error:', error)
         return sendInternalError(res, error.message)

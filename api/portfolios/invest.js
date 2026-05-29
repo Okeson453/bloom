@@ -1,13 +1,13 @@
 /**
- * POST /api/portfolios/[id]/invest
- * Invest in a specific portfolio
+ * POST /api/portfolios/invest
+ * Invest in a portfolio
  */
 
-import supabaseUser from '../../../_lib/supabaseUser.js'
-import { sendOk, sendUnauthorized, sendNotFound, sendBadRequest, sendInternalError } from '../../../_lib/response.js'
-import { withCors } from '../../../_lib/cors.js'
+import supabaseUser from '../_lib/supabaseUser.js'
+import { sendOk, sendUnauthorized, sendNotFound, sendBadRequest, sendInternalError } from '../_lib/response.js'
+import { withCors } from '../_lib/cors.js'
 
-export default withCors(async function handler(req, res) {
+async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' })
     }
@@ -20,9 +20,7 @@ export default withCors(async function handler(req, res) {
             return sendUnauthorized(res, 'User not authenticated')
         }
 
-        // Get portfolio ID from path parameter
-        const { id: portfolio_id } = req.query
-        const { amount } = req.body
+        const { portfolio_id, amount } = req.body
 
         if (!portfolio_id || !amount || amount <= 0) {
             return sendBadRequest(res, 'Missing or invalid portfolio_id or amount')
@@ -63,4 +61,6 @@ export default withCors(async function handler(req, res) {
         console.error('Handler error:', error)
         return sendInternalError(res, error.message)
     }
-})
+}
+
+export default withCors(handler)

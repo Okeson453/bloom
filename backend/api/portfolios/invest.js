@@ -62,3 +62,5 @@ async function handler(req, res) {
         return sendInternalError(res, error.message)
     }
 }
+
+export default withCors(handler)

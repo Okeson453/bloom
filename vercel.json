@@ -1,18 +1,41 @@
 {
-    "version": 2,
-    "buildCommand": "cd backend && npm install",
-    "outputDirectory": "frontend",
-    "regions": [
-        "iad1"
-    ],
-    "rewrites": [
-        {
-            "source": "/api/:path*",
-            "destination": "/backend/api/:path*"
-        },
-        {
-            "source": "/(.*)",
-            "destination": "/index.html"
-        }
-    ]
+  "version": 2,
+  "env": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "MARKET_DATA_API_KEY",
+    "MARKET_DATA_BASE_URL",
+    "PRICE_CACHE_TTL_SECONDS",
+    "RESEND_API_KEY",
+    "EMAIL_FROM",
+    "ENVIRONMENT",
+    "REDIS_URL",
+    "STRIPE_SECRET_KEY",
+    "STRIPE_PUBLISHABLE_KEY",
+    "PLAID_CLIENT_ID",
+    "PLAID_SECRET",
+    "PLAID_ENV"
+  ],
+  "buildCommand": "npm install",
+  "functions": {
+    "api/**/*.js": {
+      "memory": 3008,
+      "maxDuration": 60,
+      "runtime": "nodejs20.x"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ],
+  "regions": ["iad1"],
+  "cleanUrls": true,
+  "trailingSlash": false
 }
