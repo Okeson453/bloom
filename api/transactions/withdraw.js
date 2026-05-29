@@ -43,7 +43,7 @@ export default withCors(async function handler(req, res) {
       .from('transactions')
       .insert({
         user_id: user.id,
-        type: 'withdrawal',
+        type: 'withdraw',
         amount: validatedData.amount,
         portfolio_id: validatedData.portfolio_id || null,
         description: validatedData.description || null,
